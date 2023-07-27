@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InMemoryDb } from 'src/db/inMemoryDB';
@@ -8,7 +10,17 @@ export class UsersService {
   constructor(private db: InMemoryDb) {}
 
   create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    const newUser = {
+      id: uuidv4(),
+      login: createUserDto.login,
+      password: createUserDto.password,
+      version: 1,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    this.db.users.push(newUser);
+
+    return newUser;
   }
 
   findAll() {
