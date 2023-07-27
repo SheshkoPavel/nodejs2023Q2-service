@@ -45,8 +45,9 @@ export class UsersService {
     if (!uuidValidate(id)) throw new HttpException(`Validation failed (uuid  is expected)`, HttpStatus.BAD_REQUEST);
 
     const { oldPassword, newPassword } = updateUserDto;
-    // const user = this.db.users.find((user) => user.id === id);
+
     const user = this.findOne(id);
+    if (!user) throw new HttpException(`User with id: ${id} not found`, HttpStatus.NOT_FOUND);
 
     if (oldPassword !== user.password) {
       throw new HttpException('Password is incorrect', HttpStatus.FORBIDDEN)
@@ -59,7 +60,12 @@ export class UsersService {
     return user;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(id: string) {
+    if (!uuidValidate(id)) throw new HttpException(`Validation failed (uuid  is expected)`, HttpStatus.BAD_REQUEST);
+
+    const userIndex = this.db.users.findIndex((user) => user.id === id);
+    if (userIndex === -1) throw new HttpException(`User with id: ${id} not found`, HttpStatus.NOT_FOUND);
+
+    this.db.users.splice(userIndex, 1);
   }
 }
