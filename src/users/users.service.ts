@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { InMemoryDb } from 'src/db/inMemoryDB';
 
 @Injectable()
 export class UsersService {
+  constructor(private db: InMemoryDb) {}
+
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.db.users;
   }
 
   findOne(id: number) {
