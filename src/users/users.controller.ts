@@ -21,7 +21,7 @@ export class UsersController {
 
   @Post()
   @HttpCode(201)
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: CreateUserDto): User {
     return this.usersService.create(createUserDto);
   }
 
@@ -42,7 +42,7 @@ export class UsersController {
   update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateUserDto: UpdateUserDto,
-  ) {
+  ): User {
     return this.usersService.update(id, updateUserDto);
   }
 
