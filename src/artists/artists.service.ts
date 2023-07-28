@@ -34,19 +34,21 @@ export class ArtistsService {
   }
 
   update(id: string, updateArtistDto: UpdateArtistDto) {
-    const artist = this.findOne(id);
+    const artistIndex = this.db.artists.findIndex((artist) => artist.id === id);
 
-    if (!artist) {
+    if (artistIndex === -1) {
       throw new HttpException(
         `Artist with id: ${id} not found`,
         HttpStatus.NOT_FOUND,
       );
     }
 
-    artist.name = updateArtistDto.name;
-    artist.grammy = updateArtistDto.grammy;
+    const updatedArtist = Object.assign(this.db.artists[artistIndex], {
+      ...updateArtistDto,
+    });
+    this.db.artists[artistIndex] = updatedArtist;
 
-    return artist;
+    return updatedArtist;
   }
 
   remove(id: string) {

@@ -35,21 +35,21 @@ export class TracksService {
   }
 
   update(id: string, updateTrackDto: UpdateTrackDto) {
-    const track = this.findOne(id);
+    const trackIndex = this.db.tracks.findIndex((track) => track.id === id);
 
-    if (!track) {
+    if (trackIndex === -1) {
       throw new HttpException(
         `Track with id: ${id} not found`,
         HttpStatus.NOT_FOUND,
       );
     }
 
-    track.name = updateTrackDto.name;
-    track.artistId = updateTrackDto.artistId;
-    track.albumId = updateTrackDto.albumId;
-    track.duration = updateTrackDto.duration;
+    const updatedTrack = Object.assign(this.db.tracks[trackIndex], {
+      ...updateTrackDto,
+    });
+    this.db.tracks[trackIndex] = updatedTrack;
 
-    return track;
+    return updatedTrack;
   }
 
   remove(id: string) {
