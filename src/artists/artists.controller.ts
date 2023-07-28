@@ -37,17 +37,17 @@ export class ArtistsController {
     return this.artistsService.findOne(id);
   }
 
-  // @Put(':id')
-  // update(
-  //   @Param('id', new ParseUUIDPipe()) id: string,
-  //   @Body() updateArtistDto: UpdateArtistDto,
-  // ): Artist {
-  //   return this.artistsService.update(id, updateArtistDto);
-  // }
+  @Put(':id')
+  update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateArtistDto: UpdateArtistDto,
+  ): Artist {
+    return this.artistsService.update(id, updateArtistDto);
+  }
 
-  // @Delete(':id')
-  // @HttpCode(204)
-  // remove(@Param('id', new ParseUUIDPipe()) id: string): void {
-  //   return this.artistsService.remove(id);
-  // }
+  @Delete(':id')
+  @HttpCode(204)
+  remove(@Param('id', new ParseUUIDPipe()) id: string): void {
+    return this.artistsService.remove(id);
+  }
 }

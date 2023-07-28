@@ -34,10 +34,31 @@ export class ArtistsService {
   }
 
   update(id: string, updateArtistDto: UpdateArtistDto) {
-    return `This action updates a #${id} artist`;
+    const artist = this.findOne(id);
+
+    if (!artist) {
+      throw new HttpException(
+        `User with id: ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    artist.name = updateArtistDto.name;
+    artist.grammy = updateArtistDto.grammy;
+
+    return artist;
   }
 
   remove(id: string) {
-    return `This action removes a #${id} artist`;
+    const artistIndex = this.db.artists.findIndex((artist) => artist.id === id);
+
+    if (artistIndex === -1) {
+      throw new HttpException(
+        `User with id: ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    this.db.artists.splice(artistIndex, 1);
   }
 }
