@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
@@ -9,22 +10,34 @@ export class ArtistsService {
   constructor(private db: InMemoryDb) {}
 
   create(createArtistDto: CreateArtistDto) {
-    return 'This action adds a new artist';
+    const newArtist = { ...createArtistDto, id: uuidv4() };
+    this.db.artists.push(newArtist);
+
+    return newArtist;
   }
 
   findAll() {
-    return `This action returns all artists`;
+    return this.db.artists;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} artist`;
+  findOne(id: string) {
+    const artist = this.db.artists.find((artist) => artist.id === id);
+
+    if (!artist) {
+      throw new HttpException(
+        `Artist with id: ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return artist;
   }
 
-  update(id: number, updateArtistDto: UpdateArtistDto) {
+  update(id: string, updateArtistDto: UpdateArtistDto) {
     return `This action updates a #${id} artist`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} artist`;
   }
 }
