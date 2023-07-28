@@ -38,7 +38,7 @@ export class ArtistsService {
 
     if (!artist) {
       throw new HttpException(
-        `User with id: ${id} not found`,
+        `Artist with id: ${id} not found`,
         HttpStatus.NOT_FOUND,
       );
     }
@@ -54,7 +54,7 @@ export class ArtistsService {
 
     if (artistIndex === -1) {
       throw new HttpException(
-        `User with id: ${id} not found`,
+        `Artist with id: ${id} not found`,
         HttpStatus.NOT_FOUND,
       );
     }
