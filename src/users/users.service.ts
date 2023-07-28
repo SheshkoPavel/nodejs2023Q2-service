@@ -29,7 +29,10 @@ export class UsersService {
     };
     this.db.users.push(newUser);
 
-    return newUser;
+    const responseUser = { ...newUser };
+    delete responseUser.password;
+
+    return responseUser;
   }
 
   findAll() {
