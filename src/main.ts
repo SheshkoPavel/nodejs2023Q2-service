@@ -11,7 +11,10 @@ import 'dotenv/config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const document = await readFile(join(__dirname, '..', 'doc/api.yaml'), 'utf-8');
+  const document = await readFile(
+    join(__dirname, '..', 'doc/api.yaml'),
+    'utf-8',
+  );
   SwaggerModule.setup('docs', app, parse(document));
 
   await app.listen(process.env.PORT || 4000);
