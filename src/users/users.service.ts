@@ -71,7 +71,10 @@ export class UsersService {
     user.version = user.version + 1;
     user.updatedAt = Date.now();
 
-    return user;
+    const responseUser = { ...user };
+    delete responseUser.password;
+
+    return responseUser;
   }
 
   remove(id: string) {
