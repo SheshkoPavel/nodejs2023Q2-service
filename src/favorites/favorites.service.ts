@@ -99,4 +99,34 @@ export class FavoritesService {
 
     this.db.favorites.albums.splice(albumIndex, 1);
   }
+
+  addArtistToFav(id: string) {
+    const artist = this.artistService.findOne(id);
+
+    if (!artist) {
+      throw new HttpException(
+        `Artist with id: ${id}, not found`,
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    this.db.favorites.artists.push(id);
+
+    return { message: `Artist ${id} successfully added to favorites` };
+  }
+
+  removeArtistFromFav(id: string) {
+    const artistIndex = this.db.favorites.artists.findIndex(
+      (artistId) => artistId === id,
+    );
+
+    if (artistIndex === -1) {
+      throw new HttpException(
+        `Artist with id: ${id}, not found in favorites`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    this.db.favorites.artists.splice(artistIndex, 1);
+  }
 }

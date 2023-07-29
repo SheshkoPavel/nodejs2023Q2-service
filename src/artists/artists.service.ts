@@ -24,10 +24,7 @@ export class ArtistsService {
     const artist = this.db.artists.find((artist) => artist.id === id);
 
     if (!artist) {
-      throw new HttpException(
-        `Artist with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+      return null;
     }
 
     return artist;
