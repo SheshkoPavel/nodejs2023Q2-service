@@ -16,5 +16,6 @@ import { ArtistsModule } from 'src/artists/artists.module';
     forwardRef(() => AlbumsModule),
     forwardRef(() => TracksModule),
   ],
+  exports: [FavoritesService],
 })
 export class FavoritesModule {}

@@ -1,13 +1,33 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { InMemoryDb } from 'src/db/inMemoryDB';
+import { FavoritesService } from 'src/favorites/favorites.service';
+import { AlbumsService } from 'src/albums/albums.service';
+import { TracksService } from 'src/tracks/tracks.service';
 
 @Injectable()
 export class ArtistsService {
-  constructor(private db: InMemoryDb) {}
+  constructor(
+    private db: InMemoryDb,
+
+    @Inject(forwardRef(() => FavoritesService))
+    private readonly favoritesService: FavoritesService,
+
+    @Inject(forwardRef(() => AlbumsService))
+    private readonly albumService: AlbumsService,
+
+    @Inject(forwardRef(() => TracksService))
+    private readonly trackService: TracksService,
+  ) {}
 
   create(createArtistDto: CreateArtistDto) {
     const newArtist = { ...createArtistDto, id: uuidv4() };
@@ -20,10 +40,17 @@ export class ArtistsService {
     return this.db.artists;
   }
 
-  findOne(id: string) {
+  findOne(id: string, skipErrors = false) {
     const artist = this.db.artists.find((artist) => artist.id === id);
 
-    if (!artist) {
+    if (!artist && !skipErrors) {
+      throw new HttpException(
+        `Artist with id: ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (!artist && skipErrors) {
       return null;
     }
 
@@ -59,5 +86,9 @@ export class ArtistsService {
     }
 
     this.db.artists.splice(artistIndex, 1);
+
+    this.albumService.removeArtist(id);
+    this.trackService.removeArtist(id);
+    this.favoritesService.removeArtistFromFav(id, true);
   }
 }

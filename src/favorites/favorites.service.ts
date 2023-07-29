@@ -55,12 +55,12 @@ export class FavoritesService {
     return { message: `Track ${id} successfully added to favorites` };
   }
 
-  removeTrackFromFav(id: string) {
+  removeTrackFromFav(id: string, skipErrors = false) {
     const trackIndex = this.db.favorites.tracks.findIndex(
       (trackId) => trackId === id,
     );
 
-    if (trackIndex === -1) {
+    if (trackIndex === -1 && !skipErrors) {
       throw new HttpException(
         `Track with id: ${id}, not found in favorites`,
         HttpStatus.NOT_FOUND,
@@ -71,7 +71,7 @@ export class FavoritesService {
   }
 
   addAlbumToFav(id: string) {
-    const album = this.albumService.findOne(id);
+    const album = this.albumService.findOne(id, true);
 
     if (!album) {
       throw new HttpException(
@@ -85,12 +85,12 @@ export class FavoritesService {
     return { message: `Album ${id} successfully added to favorites` };
   }
 
-  removeAlbumFromFav(id: string) {
+  removeAlbumFromFav(id: string, skipErrors = false) {
     const albumIndex = this.db.favorites.albums.findIndex(
       (albumId) => albumId === id,
     );
 
-    if (albumIndex === -1) {
+    if (albumIndex === -1 && !skipErrors) {
       throw new HttpException(
         `Album with id: ${id}, not found in favorites`,
         HttpStatus.NOT_FOUND,
@@ -115,12 +115,12 @@ export class FavoritesService {
     return { message: `Artist ${id} successfully added to favorites` };
   }
 
-  removeArtistFromFav(id: string) {
+  removeArtistFromFav(id: string, skipErrors = false) {
     const artistIndex = this.db.favorites.artists.findIndex(
       (artistId) => artistId === id,
     );
 
-    if (artistIndex === -1) {
+    if (artistIndex === -1 && !skipErrors) {
       throw new HttpException(
         `Artist with id: ${id}, not found in favorites`,
         HttpStatus.NOT_FOUND,
