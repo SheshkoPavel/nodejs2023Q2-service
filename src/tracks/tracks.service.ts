@@ -25,10 +25,7 @@ export class TracksService {
     const track = this.db.tracks.find((track) => track.id === id);
 
     if (!track) {
-      throw new HttpException(
-        `Track with id: ${id} not found`,
-        HttpStatus.NOT_FOUND,
-      );
+      return null;
     }
 
     return track;

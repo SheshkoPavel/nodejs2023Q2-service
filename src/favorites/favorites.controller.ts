@@ -23,10 +23,11 @@ export class FavoritesController {
     return this.favoritesService.findAll();
   }
 
-  // @Post('track/:id')
-  // create(@Body()) {
-  //   return this.favoritesService.create(createFavoriteDto);
-  // }
+  @Post('track/:id')
+  @HttpCode(201)
+  addTrackToFav(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.favoritesService.addTrackToFav(id);
+  }
 
   // @Get(':id')
   // findOne(@Param('id', new ParseUUIDPipe()) id: string) {
