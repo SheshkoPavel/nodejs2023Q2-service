@@ -2,8 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Put,
   Param,
   Delete,
   ParseUUIDPipe,
@@ -29,13 +27,9 @@ export class FavoritesController {
     return this.favoritesService.addTrackToFav(id);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-  //   return this.favoritesService.findOne(+id);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id', new ParseUUIDPipe()) id: string) {
-  //   return this.favoritesService.remove(+id);
-  // }
+  @Delete('track/:id')
+  @HttpCode(204)
+  removeTrackFromFav(@Param('id', new ParseUUIDPipe()) id: string): void {
+    return this.favoritesService.removeTrackFromFav(id);
+  }
 }

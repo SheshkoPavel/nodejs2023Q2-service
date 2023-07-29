@@ -54,4 +54,19 @@ export class FavoritesService {
 
     return { message: `Track ${id} successfully added to favorites` };
   }
+
+  removeTrackFromFav(id: string) {
+    const trackIndex = this.db.favorites.tracks.findIndex(
+      (trackId) => trackId === id,
+    );
+
+    if (trackIndex === -1) {
+      throw new HttpException(
+        `Track with id: ${id}, not found in favorites`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    this.db.favorites.tracks.splice(trackIndex, 1);
+  }
 }
