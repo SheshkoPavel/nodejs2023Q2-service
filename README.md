@@ -8,7 +8,12 @@
 ## Downloading
 
 ```
-git clone {repository URL}
+git clone https://github.com/SheshkoPavel/nodejs2023Q2-service.git
+```
+
+## Change branch
+```
+git checkout develop
 ```
 
 ## Installing NPM modules
