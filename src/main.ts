@@ -8,8 +8,7 @@ import { ValidationPipe } from '@nestjs/common';
 
 import { AppModule } from './app.module';
 import 'dotenv/config';
-
-//start work on task
+import 'reflect-metadata';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +21,6 @@ async function bootstrap() {
   );
   SwaggerModule.setup('docs', app, parse(document));
 
-  await app.listen(process.env.PORT || 4000);
+  await app.listen(+process.env.PORT || 4000);
 }
 bootstrap();
