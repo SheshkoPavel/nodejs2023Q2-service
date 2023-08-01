@@ -31,11 +31,11 @@ export class UsersController {
     return await this.usersService.findAll();
   }
 
-  // @Get(':id')
-  // @HttpCode(200)
-  // findOne(@Param('id', new ParseUUIDPipe()) id: string): User {
-  //   return this.usersService.findOne(id);
-  // }
+  @Get(':id')
+  @HttpCode(200)
+  async findOne(@Param('id', new ParseUUIDPipe()) id: string): Promise<User> {
+    return await this.usersService.findOne(id);
+  }
 
   // @Put(':id')
   // @HttpCode(200)

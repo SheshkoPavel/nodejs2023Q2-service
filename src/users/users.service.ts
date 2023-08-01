@@ -26,18 +26,18 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
-  // findOne(id: string) {
-  //   const user = this.db.users.find((user) => user.id === id);
+  async findOne(id: string) {
+    const user = await this.userRepository.findOne({ where: { id } });
 
-  //   if (!user) {
-  //     throw new HttpException(
-  //       `User with id: ${id} not found`,
-  //       HttpStatus.NOT_FOUND,
-  //     );
-  //   }
+    if (!user) {
+      throw new HttpException(
+        `User with id: ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
 
-  //   return user;
-  // }
+    return user;
+  }
 
   // update(id: string, updateUserDto: UpdateUserDto) {
   //   const { oldPassword, newPassword } = updateUserDto;
