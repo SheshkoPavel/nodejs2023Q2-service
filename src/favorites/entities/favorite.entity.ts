@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Album } from 'src/albums/entities/album.entity';
 import { Artist } from 'src/artists/entities/artist.entity';
@@ -9,14 +9,17 @@ export class Favorites {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('simple-array')
-  artists: string[];
+  @ManyToMany(() => Album, (album) => album, { cascade: true })
+  @JoinTable()
+  albums: Album[];
 
-  @Column('simple-array')
-  albums: string[];
+  @ManyToMany(() => Artist, (artist) => artist, { cascade: true })
+  @JoinTable()
+  artists: Artist[];
 
-  @Column('simple-array')
-  tracks: string[];
+  @ManyToMany(() => Track, (track) => track, { cascade: true })
+  @JoinTable()
+  tracks: Track[];
 }
 
 export interface FavoritesResponse {

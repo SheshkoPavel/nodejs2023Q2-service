@@ -17,43 +17,49 @@ export class FavoritesController {
 
   @Get()
   @HttpCode(200)
-  findAll(): FavoritesResponse {
-    return this.favoritesService.findAll();
+  async findAll(): Promise<FavoritesResponse> {
+    return await this.favoritesService.findAll();
   }
 
   @Post('track/:id')
   @HttpCode(201)
-  addTrackToFav(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.favoritesService.addTrackToFav(id);
+  async addTrackToFav(@Param('id', new ParseUUIDPipe()) id: string) {
+    return await this.favoritesService.addTrackToFav(id);
   }
 
   @Delete('track/:id')
   @HttpCode(204)
-  removeTrackFromFav(@Param('id', new ParseUUIDPipe()) id: string): void {
-    return this.favoritesService.removeTrackFromFav(id);
+  async removeTrackFromFav(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<void> {
+    return await this.favoritesService.removeTrackFromFav(id);
   }
 
   @Post('album/:id')
   @HttpCode(201)
-  addAlbumToFav(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.favoritesService.addAlbumToFav(id);
+  async addAlbumToFav(@Param('id', new ParseUUIDPipe()) id: string) {
+    return await this.favoritesService.addAlbumToFav(id);
   }
 
   @Delete('album/:id')
   @HttpCode(204)
-  removeAlbumFromFav(@Param('id', new ParseUUIDPipe()) id: string): void {
-    return this.favoritesService.removeAlbumFromFav(id);
+  async removeAlbumFromFav(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<void> {
+    return await this.favoritesService.removeAlbumFromFav(id);
   }
 
   @Post('artist/:id')
   @HttpCode(201)
-  addArtistToFav(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.favoritesService.addArtistToFav(id);
+  async addArtistToFav(@Param('id', new ParseUUIDPipe()) id: string) {
+    return await this.favoritesService.addArtistToFav(id);
   }
 
   @Delete('artist/:id')
   @HttpCode(204)
-  removeArtistFromFav(@Param('id', new ParseUUIDPipe()) id: string): void {
-    return this.favoritesService.removeArtistFromFav(id);
+  async removeArtistFromFav(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<void> {
+    return await this.favoritesService.removeArtistFromFav(id);
   }
 }

@@ -21,33 +21,33 @@ export class ArtistsController {
 
   @Post()
   @HttpCode(201)
-  create(@Body() createArtistDto: CreateArtistDto): Artist {
-    return this.artistsService.create(createArtistDto);
+  async create(@Body() createArtistDto: CreateArtistDto): Promise<Artist> {
+    return await this.artistsService.create(createArtistDto);
   }
 
   @Get()
   @HttpCode(200)
-  findAll(): Artist[] {
-    return this.artistsService.findAll();
+  async findAll(): Promise<Artist[]> {
+    return await this.artistsService.findAll();
   }
 
   @Get(':id')
   @HttpCode(200)
-  findOne(@Param('id', new ParseUUIDPipe()) id: string): Artist {
-    return this.artistsService.findOne(id);
+  async findOne(@Param('id', new ParseUUIDPipe()) id: string): Promise<Artist> {
+    return await this.artistsService.findOne(id);
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateArtistDto: UpdateArtistDto,
-  ): Artist {
-    return this.artistsService.update(id, updateArtistDto);
+  ): Promise<Artist> {
+    return await this.artistsService.update(id, updateArtistDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id', new ParseUUIDPipe()) id: string): void {
-    return this.artistsService.remove(id);
+  async remove(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
+    return await this.artistsService.remove(id);
   }
 }
