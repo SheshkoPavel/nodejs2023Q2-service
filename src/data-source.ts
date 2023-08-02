@@ -2,6 +2,10 @@ import { DataSource } from 'typeorm';
 import 'dotenv/config';
 
 import { User } from './users/entities/user.entity';
+import { Artist } from './artists/entities/artist.entity';
+import { Album } from './albums/entities/album.entity';
+import { Track } from './tracks/entities/track.entity';
+import { Favorites } from './favorites/entities/favorite.entity';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -12,7 +16,7 @@ export const AppDataSource = new DataSource({
   database: process.env.POSTGRES_DB,
   synchronize: true,
   logging: false,
-  entities: [User],
+  entities: [User, Artist, Album, Track, Favorites],
   subscribers: [],
   migrations: [],
 });
