@@ -37,18 +37,18 @@ export class UsersController {
     return await this.usersService.findOne(id);
   }
 
-  // @Put(':id')
-  // @HttpCode(200)
-  // update(
-  //   @Param('id', new ParseUUIDPipe()) id: string,
-  //   @Body() updateUserDto: UpdateUserDto,
-  // ): User {
-  //   return this.usersService.update(id, updateUserDto);
-  // }
+  @Put(':id')
+  @HttpCode(200)
+  async update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<User> {
+    return await this.usersService.update(id, updateUserDto);
+  }
 
-  // @Delete(':id')
-  // @HttpCode(204)
-  // remove(@Param('id', new ParseUUIDPipe()) id: string) {
-  //   return this.usersService.remove(id);
-  // }
+  @Delete(':id')
+  @HttpCode(204)
+  async remove(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
+    return await this.usersService.remove(id);
+  }
 }

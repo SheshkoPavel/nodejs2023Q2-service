@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -19,7 +18,12 @@ export class UsersService {
     const newUser = new User({ ...createUserDto });
 
     const user = this.userRepository.create(newUser);
-    return await this.userRepository.save(user);
+    await this.userRepository.save(user);
+
+    const responseUser = { ...user };
+    await delete responseUser.password;
+
+    return responseUser;
   }
 
   async findAll() {
@@ -39,40 +43,38 @@ export class UsersService {
     return user;
   }
 
-  // update(id: string, updateUserDto: UpdateUserDto) {
-  //   const { oldPassword, newPassword } = updateUserDto;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const { oldPassword, newPassword } = updateUserDto;
 
-  //   const user = this.findOne(id);
-  //   if (!user) {
-  //     throw new HttpException(
-  //       `User with id: ${id} not found`,
-  //       HttpStatus.NOT_FOUND,
-  //     );
-  //   }
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new HttpException(
+        `User with id: ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
 
-  //   if (oldPassword !== user.password) {
-  //     throw new HttpException('Password is incorrect', HttpStatus.FORBIDDEN);
-  //   }
+    if (oldPassword !== user.password) {
+      throw new HttpException('Password is incorrect', HttpStatus.FORBIDDEN);
+    }
 
-  //   user.password = newPassword;
-  //   user.version = user.version + 1;
-  //   user.updatedAt = Date.now();
+    user.password = newPassword;
+    await this.userRepository.save(user);
 
-  //   const responseUser = { ...user };
-  //   delete responseUser.password;
+    const responseUser = { ...user };
+    delete responseUser.password;
 
-  //   return responseUser;
-  // }
+    return responseUser;
+  }
 
-  // remove(id: string) {
-  //   const userIndex = this.db.users.findIndex((user) => user.id === id);
-  //   if (userIndex === -1) {
-  //     throw new HttpException(
-  //       `User with id: ${id} not found`,
-  //       HttpStatus.NOT_FOUND,
-  //     );
-  //   }
+  async remove(id: string) {
+    const deletedUser = await this.userRepository.delete(id);
 
-  //   this.db.users.splice(userIndex, 1);
-  // }
+    if (deletedUser.affected !== 1) {
+      throw new HttpException(
+        `User with id: ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 }
