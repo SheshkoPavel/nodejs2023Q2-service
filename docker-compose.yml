@@ -3,7 +3,7 @@ services:
     container_name: REST-API-APP-Library
     image: node:18-alpine
     command: "npm run start"
-    env_file: .env # adds environment variables to the container based on file content.
+    # env_file: .env # adds environment variables to the container based on file content.
     ports:
       - ${PORT}:${PORT}
     working_dir: /app  #working_dir overrides the container’s working directory from that specified by the image (i.e. Dockerfile WORKDIR).
@@ -18,6 +18,7 @@ services:
       JWT_SECRET_REFRESH_KEY: ${JWT_SECRET_REFRESH_KEY}
       TOKEN_EXPIRE_TIME: ${TOKEN_EXPIRE_TIME}
       TOKEN_REFRESH_EXPIRE_TIME: ${TOKEN_REFRESH_EXPIRE_TIME}
+      POSTGRES_HOST: postgres #same as DB service name
     restart: always
     networks: #networks defines the networks that service containers are attached to, referencing entries under the top-level networks key
       - rest-library
@@ -32,7 +33,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_HOST: ${POSTGRES_HOST}
+      # POSTGRES_HOST: postgres #same as DB service name, used in app service
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
