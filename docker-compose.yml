@@ -1,0 +1,47 @@
+services:
+  app:
+    container_name: REST-API-APP-Library
+    image: node:18-alpine
+    command: "npm run start"
+    env_file: .env # adds environment variables to the container based on file content.
+    ports:
+      - ${PORT}:${PORT}
+    working_dir: /app  #working_dir overrides the container’s working directory from that specified by the image (i.e. Dockerfile WORKDIR).
+    volumes:
+      - ./:/app
+
+    # When both env_file and environment are set for a service, values set by environment have precedence
+    environment:
+      PORT: ${PORT}
+      CRYPT_SALT: ${CRYPT_SALT}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_SECRET_REFRESH_KEY: ${JWT_SECRET_REFRESH_KEY}
+      TOKEN_EXPIRE_TIME: ${TOKEN_EXPIRE_TIME}
+      TOKEN_REFRESH_EXPIRE_TIME: ${TOKEN_REFRESH_EXPIRE_TIME}
+    restart: always
+    networks: #networks defines the networks that service containers are attached to, referencing entries under the top-level networks key
+      - rest-library
+  postgres:
+    container_name: DB-for-Library-app
+    image: postgres:15-alpine
+    depends_on:
+      - app
+    environment:
+      PG_DATA: /var/lib/postgresql/data
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - rest-library
+networks:
+  rest-library:
+
+volumes: #volumes defines mount host paths or named volumes that must be accessible by service containers
+  pgdata:
