@@ -7,6 +7,8 @@ services:
       # tags:
       #   - "sheshko/nodejs2023q2/rest-api-library"
     image: sheshko/nodejs2023q2-library:latest
+    depends_on:
+      - postgres
     command: "npm run start"
     # env_file: .env # adds environment variables to the container based on file content.
     ports:
@@ -35,8 +37,8 @@ services:
       # tags:
       #   - "sheshko/nodejs2023q2/db-postgres"
     image: sheshko/nodejs2023q2-postgres:latest
-    depends_on:
-      - app
+    # depends_on:
+    #   - app
     environment:
       PG_DATA: /var/lib/postgresql/data
       POSTGRES_PORT: ${POSTGRES_PORT}
