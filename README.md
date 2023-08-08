@@ -32,7 +32,7 @@ npm install
 Create .env file in root of project
 Clone everything from .env.example into .env
 ```
-## Running application (simple start)
+## Running application (simple start, must be postgres installed or started from docker. Refereed method is to use docker compose)
 
 ```
 npm start
