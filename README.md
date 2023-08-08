@@ -45,6 +45,13 @@ This action must download my docker image from docker hub and run application in
 docker compose up
 ```
 
+## Troubles with DB (migrations)
+In some cases can be issues with migration. If it happened - run migration
+
+```
+npm run migration:run
+```
+
 After starting the app on port (4000 as default) you can open
 in your browser OpenAPI documentation by typing http://localhost:4000/docs/.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
