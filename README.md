@@ -1,4 +1,9 @@
 # Home Library Service
+Hello! I have pushed my application to DockerHub, so you can start my app without postgres installation to your computer
+
+Actually, all that you must to do - this is add **.env** file and run command **docker compose up**
+
+![Alt text](image.png)
 
 ## Prerequisites
 
@@ -13,7 +18,7 @@ git clone https://github.com/SheshkoPavel/nodejs2023Q2-service.git
 
 ## Change branch
 ```
-git checkout develop
+git checkout feature/containerization-database-orm
 ```
 
 ## Installing NPM modules
@@ -27,10 +32,17 @@ npm install
 Create .env file in root of project
 Clone everything from .env.example into .env
 ```
-## Running application
+## Running application (simple start)
 
 ```
 npm start
+```
+
+## Running application (start using Docker)
+This action must download my docker image from docker hub and run application in containers
+
+```
+docker compose up
 ```
 
 After starting the app on port (4000 as default) you can open
