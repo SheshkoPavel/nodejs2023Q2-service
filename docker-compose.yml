@@ -1,7 +1,12 @@
 services:
   app:
     container_name: REST-API-APP-Library
-    image: node:18-alpine
+    build:
+      context: .  # context defines either a path to a directory containing a Dockerfile, or a URL to a git repository.
+      dockerfile: Dockerfile #dockerfile sets an alternate Dockerfile.
+      # tags:
+      #   - "sheshko/nodejs2023q2/rest-api-library"
+    image: sheshko/nodejs2023q2-library:latest
     command: "npm run start"
     # env_file: .env # adds environment variables to the container based on file content.
     ports:
@@ -24,7 +29,12 @@ services:
       - rest-library
   postgres:
     container_name: DB-for-Library-app
-    image: postgres:15-alpine
+    build:
+      context: .
+      dockerfile: ./db-docker/Dockerfile
+      # tags:
+      #   - "sheshko/nodejs2023q2/db-postgres"
+    image: sheshko/nodejs2023q2-postgres:latest
     depends_on:
       - app
     environment:
