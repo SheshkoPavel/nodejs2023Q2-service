@@ -8,6 +8,7 @@ import { AlbumsModule } from './albums/albums.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppDataSource } from './data-source';
+import { AuthorizationModule } from './authorization/authorization.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AppDataSource } from './data-source';
     TracksModule,
     AlbumsModule,
     FavoritesModule,
+    AuthorizationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
