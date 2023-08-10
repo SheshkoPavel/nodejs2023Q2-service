@@ -9,7 +9,7 @@ services:
     image: sheshko/nodejs2023q2-library:latest
     depends_on:
       - postgres
-    command: "npm run start"
+    command: "npm run start:all"
     # env_file: .env # adds environment variables to the container based on file content.
     ports:
       - ${PORT}:${PORT}
