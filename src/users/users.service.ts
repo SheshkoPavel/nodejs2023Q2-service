@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -15,6 +16,11 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
+    const { password } = createUserDto;
+
+    const salt = await bcrypt.genSalt(+process.env.CRYPT_SALT);
+    createUserDto.password = await bcrypt.hash(password, salt);
+
     const newUser = new User({ ...createUserDto });
 
     const user = this.userRepository.create(newUser);
