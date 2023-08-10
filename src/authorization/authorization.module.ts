@@ -6,10 +6,9 @@ import { AuthorizationService } from './authorization.service';
 import { AuthorizationController } from './authorization.controller';
 import { UsersModule } from 'src/users/users.module';
 import { LocalStrategy } from './local.strategy';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
-  controllers: [AuthorizationController],
-  providers: [AuthorizationService, LocalStrategy],
   imports: [
     UsersModule,
     PassportModule,
@@ -18,5 +17,8 @@ import { LocalStrategy } from './local.strategy';
       signOptions: { expiresIn: process.env.TOKEN_EXPIRE_TIME },
     }),
   ],
+  controllers: [AuthorizationController],
+  providers: [AuthorizationService, LocalStrategy, JwtStrategy],
+  exports: [AuthorizationService],
 })
 export class AuthorizationModule {}
