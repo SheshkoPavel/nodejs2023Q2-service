@@ -49,6 +49,10 @@ export class UsersService {
     return user;
   }
 
+  async findByLogin(login: string) {
+    return await this.userRepository.findOne({ where: { login } });
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     const { oldPassword, newPassword } = updateUserDto;
 
