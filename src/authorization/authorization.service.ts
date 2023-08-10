@@ -1,27 +1,22 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateAuthorizationDto } from './dto/create-authorization.dto';
-import { UpdateAuthorizationDto } from './dto/update-authorization.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class AuthorizationService {
-  create(createAuthorizationDto: CreateAuthorizationDto) {
-    return 'This action adds a new authorization';
+  async signup(createUserDto: CreateUserDto) {
+    console.log('createUserDto <-------', createUserDto);
+    return await 'This action adds a new authorization';
   }
 
-  findAll() {
-    return `This action returns all authorization`;
+  async login(user: User) {
+    console.log('user <-------', user);
+    return await `This action returns all authorization`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} authorization`;
-  }
-
-  update(id: number, updateAuthorizationDto: UpdateAuthorizationDto) {
-    return `This action updates a #${id} authorization`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} authorization`;
+  async refresh(user: User) {
+    console.log('user <-------', user);
+    return await `This action returns all authorization`;
   }
 }

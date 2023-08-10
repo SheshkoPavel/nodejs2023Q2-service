@@ -1,46 +1,27 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, Request } from '@nestjs/common';
 
 import { AuthorizationService } from './authorization.service';
-import { CreateAuthorizationDto } from './dto/create-authorization.dto';
-import { UpdateAuthorizationDto } from './dto/update-authorization.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
-@Controller('authorization')
+@Controller('auth')
 export class AuthorizationController {
   constructor(private readonly authorizationService: AuthorizationService) {}
 
-  @Post()
-  create(@Body() createAuthorizationDto: CreateAuthorizationDto) {
-    return this.authorizationService.create(createAuthorizationDto);
+  @Post('signup')
+  @HttpCode(201)
+  async signup(@Body() createUserDto: CreateUserDto) {
+    return await this.authorizationService.signup(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.authorizationService.findAll();
+  @Post('login')
+  @HttpCode(200)
+  async login(@Request() req) {
+    return await this.authorizationService.login(req.user);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authorizationService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateAuthorizationDto: UpdateAuthorizationDto,
-  ) {
-    return this.authorizationService.update(+id, updateAuthorizationDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authorizationService.remove(+id);
+  @Post('refresh')
+  @HttpCode(200)
+  async refresh(@Request() req) {
+    return await this.authorizationService.refresh(req);
   }
 }
