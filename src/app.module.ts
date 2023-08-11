@@ -12,6 +12,7 @@ import { FavoritesModule } from './favorites/favorites.module';
 import { AppDataSource } from './data-source';
 import { AuthorizationModule } from './authorization/authorization.module';
 import { JwtAuthGuard } from './authorization/jwt-auth.guard';
+import { LoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JwtAuthGuard } from './authorization/jwt-auth.guard';
     AlbumsModule,
     FavoritesModule,
     AuthorizationModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [
