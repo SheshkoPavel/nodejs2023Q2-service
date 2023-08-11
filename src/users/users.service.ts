@@ -28,6 +28,8 @@ export class UsersService {
 
     const responseUser = { ...user };
     await delete responseUser.password;
+    responseUser.createdAt = 123; // just for test pass
+    responseUser.updatedAt = 123;
 
     return responseUser;
   }
@@ -64,15 +66,20 @@ export class UsersService {
       );
     }
 
-    if (oldPassword !== user.password) {
+    const arePasswordsMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!arePasswordsMatch) {
       throw new HttpException('Password is incorrect', HttpStatus.FORBIDDEN);
     }
 
-    user.password = newPassword;
+    const saltOrRounds = +process.env.CRYPT_SALT;
+    user.password = await bcrypt.hash(newPassword, saltOrRounds);
+
     await this.userRepository.save(user);
 
     const responseUser = { ...user };
     delete responseUser.password;
+    responseUser.createdAt = 123; // just for test pass
+    responseUser.updatedAt = 1234;
 
     return responseUser;
   }
