@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
@@ -32,12 +36,34 @@ export class AuthorizationService {
   }
 
   async login(user: User) {
-    console.log('user <-------', user);
-    return await `This action returns all authorization`;
+    const { login, id: userId } = user;
+    const payload = { userId, login };
+
+    const accessToken = await this.jwtService.signAsync(payload, {
+      secret: process.env.JWT_SECRET_KEY,
+      expiresIn: process.env.TOKEN_EXPIRE_TIME,
+    });
+
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      secret: process.env.JWT_SECRET_REFRESH_KEY,
+      expiresIn: process.env.TOKEN_REFRESH_EXPIRE_TIME,
+    });
+
+    return { accessToken, refreshToken };
   }
 
-  async refresh(user: User) {
-    console.log('user <-------', user);
-    return await `This action returns all authorization`;
+  async refresh({ refreshToken }) {
+    if (!refreshToken) {
+      throw new UnauthorizedException("refresh token wasn't provided");
+    }
+
+    try {
+      const { userId, login } = this.jwtService.verify(refreshToken);
+      const user = new User({ id: userId, login });
+
+      return await this.login(user);
+    } catch {
+      throw new ForbiddenException('refreshToken is invalid or expired');
+    }
   }
 }
