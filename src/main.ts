@@ -19,7 +19,7 @@ async function bootstrap() {
     join(__dirname, '..', 'doc/api.yaml'),
     'utf-8',
   );
-  SwaggerModule.setup('docs', app, parse(document));
+  SwaggerModule.setup('doc', app, parse(document));
 
   await app.listen(+process.env.PORT || 4000);
 }
