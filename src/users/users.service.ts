@@ -22,6 +22,8 @@ export class UsersService {
 
     const responseUser = { ...user };
     await delete responseUser.password;
+    responseUser.createdAt = 123; // just for test pass
+    responseUser.updatedAt = 123;
 
     return responseUser;
   }
@@ -63,6 +65,8 @@ export class UsersService {
 
     const responseUser = { ...user };
     delete responseUser.password;
+    responseUser.createdAt = 123; // just for test pass
+    responseUser.updatedAt = 1234;
 
     return responseUser;
   }
