@@ -5,4 +5,8 @@ export class LoggingService extends ConsoleLogger {
   customLog() {
     this.log('Please feed the cat!');
   }
+
+  // log(message: any, ...optionalParams: any[]) {
+  //   // console.log(message);
+  // }
 }
