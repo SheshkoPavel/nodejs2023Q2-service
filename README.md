@@ -18,7 +18,7 @@ git clone https://github.com/SheshkoPavel/nodejs2023Q2-service.git
 
 ## Change branch
 ```
-git checkout feature/containerization-database-orm
+git checkout feature/logging-error-authentication-authorization
 ```
 
 ## Installing NPM modules
