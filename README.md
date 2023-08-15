@@ -1,7 +1,7 @@
 # Home Library Service
 Hello! I have pushed my application to DockerHub, so you can start my app without postgres installation to your computer
 
-Actually, all that you must to do - this is add **.env** file and run command **docker compose up**
+Actually, all that you must to do - this is add **.env** file, run  **npm i** and run command **docker compose up**
 
 ![Alt text](image.png)
 
