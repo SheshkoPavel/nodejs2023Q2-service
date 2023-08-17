@@ -1,4 +1,9 @@
 # Home Library Service
+Hello! I have pushed my application to DockerHub, so you can start my app without postgres installation to your computer
+
+Actually, all that you must to do - this is add **.env** file, run  **npm i** and run command **docker compose up**
+
+![Alt text](image.png)
 
 ## Prerequisites
 
@@ -13,7 +18,7 @@ git clone https://github.com/SheshkoPavel/nodejs2023Q2-service.git
 
 ## Change branch
 ```
-git checkout develop
+git checkout feature/logging-error-authentication-authorization
 ```
 
 ## Installing NPM modules
@@ -22,33 +27,44 @@ git checkout develop
 npm install
 ```
 
-## Running application
+## Add .env file
+```
+Create .env file in root of project
+Clone everything from .env.example into .env
+```
+## Running application (simple start, must be postgres installed or started from docker. Refereed method is to use docker compose)
 
 ```
 npm start
 ```
 
+## Running application (start using Docker)
+This action must download my docker image from docker hub and run application in containers
+
+```
+docker compose up
+```
+
+## Troubles with DB (migrations)
+In some cases can be issues with migration. If it happened - run migration
+
+```
+npm run migration:run
+```
+
+## Check containers Vulnerability (you must be logged in DockerHub)
+```
+npm run scout
+```
+
 After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
+in your browser OpenAPI documentation by typing http://localhost:4000/docs/.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
-## Testing
+## Testing (with authorization)
 
 After application running open new terminal and enter:
 
-To run all tests without authorization
-
-```
-npm run test
-```
-
-To run only one of all test suites
-
-```
-npm run test -- <path to suite>
-```
-
-To run all test with authorization
 
 ```
 npm run test:auth
