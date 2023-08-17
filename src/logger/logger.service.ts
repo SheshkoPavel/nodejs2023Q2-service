@@ -2,6 +2,9 @@ import { Injectable, Scope, ConsoleLogger } from '@nestjs/common';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class LoggingService extends ConsoleLogger {
+  fileMaxSize = process.env.MAX_LOGS_FILE_SIZE_KB;
+  logLevel = process.env.LOGGING_LEVEL;
+
   customLog() {
     this.log('Please feed the cat!');
   }
